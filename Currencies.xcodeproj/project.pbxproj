@@ -54,14 +54,30 @@
 		318D9006218B06F800957FE4 /* Currencies */ = {
 			isa = PBXGroup;
 			children = (
-				318D9007218B06F800957FE4 /* AppDelegate.swift */,
-				318D9009218B06F800957FE4 /* ViewController.swift */,
+				318D9019218B201C00957FE4 /* Controller */,
+				318D901A218B205000957FE4 /* Supporting Files */,
 				318D900B218B06F800957FE4 /* Main.storyboard */,
-				318D900E218B06FA00957FE4 /* Assets.xcassets */,
-				318D9010218B06FA00957FE4 /* LaunchScreen.storyboard */,
 				318D9013218B06FA00957FE4 /* Info.plist */,
 			);
 			path = Currencies;
+			sourceTree = "<group>";
+		};
+		318D9019218B201C00957FE4 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				318D9009218B06F800957FE4 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		318D901A218B205000957FE4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				318D9010218B06FA00957FE4 /* LaunchScreen.storyboard */,
+				318D900E218B06FA00957FE4 /* Assets.xcassets */,
+				318D9007218B06F800957FE4 /* AppDelegate.swift */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
