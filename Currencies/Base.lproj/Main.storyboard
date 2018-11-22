@@ -55,7 +55,7 @@
                     </view>
                     <connections>
                         <outlet property="priceBTCLabel" destination="Elr-ak-BWk" id="qCI-nL-5Z8"/>
-                        <outlet property="priceLabel" destination="o0W-uU-5T3" id="JqF-wb-tnu"/>
+                        <outlet property="priceUsdLabel" destination="o0W-uU-5T3" id="JqF-wb-tnu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
