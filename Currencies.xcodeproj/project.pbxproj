@@ -72,7 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				318D9019218B201C00957FE4 /* Controller */,
-				318D901D21A6B8B600957FE4 /* Parser */,
+				318D901E21A6D57F00957FE4 /* Parser */,
 				318D901A218B205000957FE4 /* Supporting Files */,
 				318D900B218B06F800957FE4 /* Main.storyboard */,
 				318D9013218B06FA00957FE4 /* Info.plist */,
@@ -98,12 +98,12 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		318D901D21A6B8B600957FE4 /* Parser */ = {
+		318D901E21A6D57F00957FE4 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
 				318D901B21A6B66C00957FE4 /* CurrenciesParser.swift */,
 			);
-			name = Parser;
+			path = Parser;
 			sourceTree = "<group>";
 		};
 		65EDCCB691FD9791823925EA /* Pods */ = {
