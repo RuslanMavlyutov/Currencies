@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Rate View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="RateViewController" customModule="Currencies" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -24,22 +24,43 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QrA-xe-Fkg">
+                                <rect key="frame" x="148" y="215" width="78" height="35"/>
+                                <state key="normal" title="Refresh"/>
+                                <connections>
+                                    <action selector="updateLabel:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m6u-Rn-777"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 BTC =" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Elr-ak-BWk">
+                                <rect key="frame" x="16" y="135" width="343" height="37"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="31"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="QrA-xe-Fkg" firstAttribute="top" secondItem="Elr-ak-BWk" secondAttribute="bottom" constant="43" id="9PR-h8-sgU"/>
                             <constraint firstItem="o0W-uU-5T3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="FzZ-hn-9qV"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Elr-ak-BWk" secondAttribute="trailing" constant="16" id="JPl-s7-6rZ"/>
+                            <constraint firstItem="QrA-xe-Fkg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="148" id="Szt-7G-v9V"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="o0W-uU-5T3" secondAttribute="trailing" constant="16" id="UJa-U1-t7q"/>
+                            <constraint firstItem="Elr-ak-BWk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="n55-ri-KZo"/>
+                            <constraint firstItem="Elr-ak-BWk" firstAttribute="top" secondItem="o0W-uU-5T3" secondAttribute="bottom" constant="37" id="uko-c0-GNG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="QrA-xe-Fkg" secondAttribute="bottom" constant="528" id="vzo-tb-jbV"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QrA-xe-Fkg" secondAttribute="trailing" constant="149" id="x6E-GQ-MXL"/>
                             <constraint firstItem="o0W-uU-5T3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="17" id="yBx-wC-Nuq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="priceBTCLabel" destination="Elr-ak-BWk" id="qCI-nL-5Z8"/>
                         <outlet property="priceLabel" destination="o0W-uU-5T3" id="JqF-wb-tnu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+            <point key="canvasLocation" x="136.80000000000001" y="133.00492610837438"/>
         </scene>
     </scenes>
 </document>
