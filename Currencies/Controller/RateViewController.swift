@@ -20,9 +20,6 @@ final class RateViewController: UIViewController {
 
     static let CBR_LINK = "https://www.cbr-xml-daily.ru/daily_json.js"
     static let CRYPTO_LINK = "https://api.coindesk.com/v1/bpi/currentprice.json"
-    static let keyBPI = "bpi"
-    static let keyUSD = "USD"
-    static let keyRATE = "rate_float"
     static let text = "..."
 
     private let exchangeRates = ExchangeRates()
