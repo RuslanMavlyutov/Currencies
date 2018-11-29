@@ -27,4 +27,8 @@ final class CurrencyModel {
             completion(response)
         }
     }
+
+    func currencyValue() -> [String : Float] {
+        return exchangeRates.currencyValue()
+    }
 }

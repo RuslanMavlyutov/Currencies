@@ -98,11 +98,13 @@ final class fiatProperties: Mappable {
 //}
 
 final class ExchangeRates {
+    private var curValue : [String : Float] = [:]
     struct KeyStrings {
         static let keyValute = "Valute"
         static let keyValue = "Value"
         static let keyBPI = "bpi"
         static let keyUSD = "USD"
+        static let keyRUB = "RUB"
         static let keyRATE = "rate_float"
     }
 
@@ -130,9 +132,9 @@ final class ExchangeRates {
             let dailyCurrencies = response.result.value
             if let valutes = dailyCurrencies?.Valute {
                 for coin in valutes {
+                    self.curValue[coin.value.CharCode!] = coin.value.Value!
                     if coin.value.CharCode == KeyStrings.keyUSD {
                         rubleObject = coin.value.Value!
-                        break
                     }
                 }
             }
@@ -167,5 +169,10 @@ final class ExchangeRates {
             }
             completion(list)
         }
+    }
+
+    func currencyValue() -> [String : Float] {
+        curValue[KeyStrings.keyRUB] = 1
+        return curValue
     }
 }

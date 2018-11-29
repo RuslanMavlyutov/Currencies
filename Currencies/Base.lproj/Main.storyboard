@@ -59,14 +59,14 @@
                                     <action selector="chooseLastCurrency:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tz3-4w-ADV"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="B1E-Ho-5gI">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Input value" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="B1E-Ho-5gI">
                                 <rect key="frame" x="168" y="381" width="191" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wj2-oK-08y">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Input value" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Wj2-oK-08y">
                                 <rect key="frame" x="168" y="439" width="191" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
@@ -100,6 +100,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="kkI-vw-5Oj"/>
                     <connections>
+                        <outlet property="firstCurrencyButton" destination="jNX-Oz-NM7" id="NjK-6Q-elz"/>
+                        <outlet property="firstCurrencyTextField" destination="B1E-Ho-5gI" id="pbR-sL-Yo7"/>
+                        <outlet property="lastCurrencyButton" destination="Aws-US-3Sc" id="ei1-NW-tKD"/>
+                        <outlet property="lastCurrencyTextField" destination="Wj2-oK-08y" id="GPg-wK-yIl"/>
                         <outlet property="priceBTCLabel" destination="Elr-ak-BWk" id="qCI-nL-5Z8"/>
                         <outlet property="priceUsdLabel" destination="o0W-uU-5T3" id="JqF-wb-tnu"/>
                         <outlet property="timeLabel" destination="uMY-Rn-7x6" id="rHz-Hk-BSS"/>
