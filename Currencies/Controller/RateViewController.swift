@@ -10,21 +10,21 @@ import UIKit
 
 final class RateViewController: UIViewController, CurrenciesListViewControllerDelegate, UITextFieldDelegate {
 
-    @IBOutlet weak var priceUsdLabel: UILabel!
-    @IBOutlet weak var priceBTCLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var firstCurrencyTextField: UITextField!
-    @IBOutlet weak var lastCurrencyTextField: UITextField!
-    @IBOutlet weak var firstCurrencyButton: UIButton!
-    @IBOutlet weak var lastCurrencyButton: UIButton!
+    @IBOutlet private weak var priceUsdLabel: UILabel!
+    @IBOutlet private weak var priceBTCLabel: UILabel!
+    @IBOutlet private weak var timeLabel: UILabel!
+    @IBOutlet private weak var firstCurrencyTextField: UITextField!
+    @IBOutlet private weak var lastCurrencyTextField: UITextField!
+    @IBOutlet private weak var firstCurrencyButton: UIButton!
+    @IBOutlet private weak var lastCurrencyButton: UIButton!
 
     @IBAction func chooseFirstCurrency(_ sender: UIButton) {
         isFirstCurrencySelected = true
-        currenciesList(vc: firstCurrencyVc!)
+        currenciesList()
     }
     @IBAction func chooseLastCurrency(_ sender: UIButton) {
         isFirstCurrencySelected = false
-        currenciesList(vc: lastCurrencyVc!)
+        currenciesList()
     }
     @IBAction func updateLabel(_ sender: UIButton) {
         requestRate()
@@ -41,12 +41,6 @@ final class RateViewController: UIViewController, CurrenciesListViewControllerDe
         formatter.dateFormat = KeyStringsProperties.format
         return formatter
     }()
-
-    private let firstCurrencyVc = UIStoryboard.init(name: "Main", bundle: Bundle.main)
-        .instantiateViewController(withIdentifier: "table") as? CurrenciesListViewController
-
-    private let lastCurrencyVc = UIStoryboard.init(name: "Main", bundle: Bundle.main)
-        .instantiateViewController(withIdentifier: "table") as? CurrenciesListViewController
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,16 +72,21 @@ final class RateViewController: UIViewController, CurrenciesListViewControllerDe
         }
     }
 
-    func currenciesList (vc: CurrenciesListViewController) {
+    func currenciesList () {
         currencyModel.currencyList() { [weak self]
             (result: [String : String]) in
             print(result)
             self?.currencyList = result
             self?.currencyList[KeyStringsProperties.keyRUB] = KeyStringsProperties.descriptRUB
             DispatchQueue.main.async {
-                vc.delegate = self
-                self?.navigationController?.pushViewController(vc, animated: true)
-                vc.showCurrencies(list: (self?.currencyList)!)
+                if let vc = UIStoryboard.init(
+                    name: "Main", bundle: Bundle.main)
+                    .instantiateViewController(withIdentifier: "table"
+                    ) as? CurrenciesListViewController {
+                    vc.delegate = self
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                    vc.showCurrencies(list: (self?.currencyList)!)
+                }
             }
         }
     }
