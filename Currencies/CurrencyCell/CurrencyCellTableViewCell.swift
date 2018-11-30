@@ -2,14 +2,12 @@ import UIKit
 
 class CurrencyCellTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var currencyNameLabel: UILabel!
-    @IBOutlet weak var currencyDescriptionLabel: UILabel!
+    @IBOutlet private weak var currencyNameLabel: UILabel!
+    @IBOutlet private weak var currencyDescriptionLabel: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    func configureForCurrencyList(charCodeCurrency: String,
+                                  descriptionCurrency: String) {
+        currencyNameLabel.text = charCodeCurrency
+        currencyDescriptionLabel.text = descriptionCurrency
     }
 }

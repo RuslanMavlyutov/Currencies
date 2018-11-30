@@ -6,9 +6,9 @@ class CurrenciesListViewController: UITableViewController {
     private var selectedCur = String()
     var delegate: CurrenciesListViewControllerDelegate?
 
-    @IBOutlet var table: UITableView!
+    @IBOutlet private var table: UITableView!
     override func viewDidLoad() {
-        tableView.register(CurrencyCellTableViewCell.self, forCellReuseIdentifier: "currencyCell")
+        tableView.register(cellNibForClass: CurrencyCellTableViewCell.self)
         super.viewDidLoad()
     }
 
@@ -27,16 +27,16 @@ class CurrenciesListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = Bundle.main.loadNibNamed("CurrencyCellTableViewCell", owner: self, options: nil)?.first as? CurrencyCellTableViewCell {
+        let cell = tableView.dequeueCell(at: indexPath)
+        var curCodes = [String](curList.keys)
+        var curDescription = [String](curList.values)
 
-            var curCodes = [String](curList.keys)
-            var curDescription = [String](curList.values)
-            cell.currencyNameLabel?.text = curCodes[indexPath.row]
-            cell.currencyDescriptionLabel?.text = curDescription[indexPath.row]
+        cell.configureForCurrencyList(
+            charCodeCurrency: curCodes[indexPath.row],
+            descriptionCurrency: curDescription[indexPath.row]
+        )
 
-            return cell
-        }
-        return UITableViewCell()
+        return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -49,4 +49,19 @@ class CurrenciesListViewController: UITableViewController {
 
 protocol CurrenciesListViewControllerDelegate {
     func currenciesListViewControllerResponse(selectedCurrecncy: String)
+}
+
+extension UITableView {
+    func register(cellNibForClass cls: AnyClass) {
+        let id = String(describing: cls)
+        let nib = UINib(nibName: id, bundle: nil)
+        register(nib, forCellReuseIdentifier: id)
+    }
+
+    func dequeueCell <T: CurrencyCellTableViewCell>(at indexPath: IndexPath) -> T {
+        return dequeueReusableCell(
+            withIdentifier: String(describing: T.self),
+            for: indexPath
+            ) as! T
+    }
 }
