@@ -53,8 +53,6 @@ final class RateViewController: UIViewController, CurrenciesListViewControllerDe
         priceUsdLabel.text = KeyStringsProperties.text
         priceBTCLabel.text = KeyStringsProperties.text
         timeLabel.text = String()
-        firstCurrencyTextField.delegate = self
-        lastCurrencyTextField.delegate = self
 
         currencyModel.usdToRouble() {
             (result: Float) in
