@@ -22,13 +22,6 @@ struct KeyStringsProperties {
 }
 
 final class ConvertModel {
-    func test(model: TextFieldModel){
-        print(model.character)
-        print(model.firstCurrencyValue)
-        print(model.secondCurrencyValue)
-        print(model.isFirstTextFieldFilled)
-    }
-
     func convert(textFieldModel: TextFieldModel) -> String {
         var numberStr = String()
         var ratio = Float()
