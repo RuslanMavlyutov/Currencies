@@ -42,13 +42,12 @@ class CurrenciesListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var curCodes = [String](curList.keys)
         selectedCur = curCodes[indexPath.row]
-        self.delegate?.currenciesListViewControllerResponse(selectedCurrecncy: selectedCur)
-        navigationController?.popViewController(animated: true)
+        self.delegate?.currenciesListViewController(self, didSelectCurrecncy: selectedCur)
     }
 }
 
 protocol CurrenciesListViewControllerDelegate {
-    func currenciesListViewControllerResponse(selectedCurrecncy: String)
+    func currenciesListViewController(_ ctrl: CurrenciesListViewController, didSelectCurrecncy currency: String)
 }
 
 extension UITableView {

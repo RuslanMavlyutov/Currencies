@@ -91,24 +91,25 @@ final class RateViewController: UIViewController, CurrenciesListViewControllerDe
         }
     }
 
-    func currenciesListViewControllerResponse(selectedCurrecncy: String) {
+    func currenciesListViewController(_ ctrl: CurrenciesListViewController, didSelectCurrecncy currency: String) {
         if isFirstCurrencySelected {
-            firstCurrencyButton.setTitle(selectedCurrecncy, for: .normal)
+            firstCurrencyButton.setTitle(currency, for: .normal)
             if !(firstCurrencyTextField.text?.isEmpty)! {
                 let curVal = currencyModel.currencyValue()
-                let firstCurrency = curVal[selectedCurrecncy]
+                let firstCurrency = curVal[currency]
                 let secondCurrency = curVal[(lastCurrencyButton.titleLabel?.text)!]
                 let textFieldModel = TextFieldModel(
                     character: String()
                     , firstCurrencyValue: firstCurrency!
                     , secondCurrencyValue: secondCurrency!
                     , firstTextFieldText: firstCurrencyTextField.text!
-                    , secondTextFieldText: selectedCurrecncy
+                    , secondTextFieldText: currency
                     , isFirstTextFieldFilled: true)
                 let str = convertModel.changeCurrecncy(textFieldModel: textFieldModel)
                 changeTextFieldText(string: str, for: lastCurrencyTextField)
             }
         }
+        navigationController?.popViewController(animated: true)
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
