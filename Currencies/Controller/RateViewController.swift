@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class RateViewController: UIViewController, CurrenciesListViewControllerDelegate, UITextFieldDelegate {
+final class RateViewController: UIViewController {
 
     @IBOutlet private weak var priceUsdLabel: UILabel!
     @IBOutlet private weak var priceBTCLabel: UILabel!
@@ -91,6 +91,12 @@ final class RateViewController: UIViewController, CurrenciesListViewControllerDe
         }
     }
 
+    func changeTextFieldText(string: String, for textField: UITextField) {
+        textField.text = string
+    }
+}
+
+extension RateViewController: CurrenciesListViewControllerDelegate {
     func currenciesListViewController(_ ctrl: CurrenciesListViewController, didSelectCurrecncy currency: String) {
         if isFirstCurrencySelected {
             firstCurrencyButton.setTitle(currency, for: .normal)
@@ -111,7 +117,9 @@ final class RateViewController: UIViewController, CurrenciesListViewControllerDe
         }
         navigationController?.popViewController(animated: true)
     }
+}
 
+extension RateViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard NSCharacterSet(charactersIn: KeyStringsProperties.characters).isSuperset(of: NSCharacterSet(charactersIn: string) as CharacterSet) else {
             return false
@@ -155,10 +163,6 @@ final class RateViewController: UIViewController, CurrenciesListViewControllerDe
         } else {
             return false
         }
-    }
-
-    func changeTextFieldText(string: String, for textField: UITextField) {
-        textField.text = string
     }
 }
 
