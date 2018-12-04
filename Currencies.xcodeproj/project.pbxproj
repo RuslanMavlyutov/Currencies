@@ -81,11 +81,8 @@
 		318D9006218B06F800957FE4 /* Currencies */ = {
 			isa = PBXGroup;
 			children = (
-				318D902521AD949100957FE4 /* CurrencyCell */,
 				318D902221AD2B1E00957FE4 /* CurrenciesList */,
-				318D901F21A7F0F800957FE4 /* Model */,
-				318D9019218B201C00957FE4 /* Controller */,
-				318D901E21A6D57F00957FE4 /* Parser */,
+				31DE5D3121B6581F00424D05 /* ExchangeRate */,
 				318D901A218B205000957FE4 /* Supporting Files */,
 				318D900B218B06F800957FE4 /* Main.storyboard */,
 				318D9013218B06FA00957FE4 /* Info.plist */,
@@ -96,7 +93,6 @@
 		318D9019218B201C00957FE4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				31DE5D2C21AFEE1C00424D05 /* ConvertModel */,
 				318D9009218B06F800957FE4 /* RateViewController.swift */,
 			);
 			path = Controller;
@@ -131,18 +127,11 @@
 		318D902221AD2B1E00957FE4 /* CurrenciesList */ = {
 			isa = PBXGroup;
 			children = (
-				318D902321AD2C4900957FE4 /* CurrenciesListViewController.swift */,
+				31DE5D2F21B6575500424D05 /* Cell */,
+				31DE5D3021B657A300424D05 /* Controller */,
+				318D901F21A7F0F800957FE4 /* Model */,
 			);
 			path = CurrenciesList;
-			sourceTree = "<group>";
-		};
-		318D902521AD949100957FE4 /* CurrencyCell */ = {
-			isa = PBXGroup;
-			children = (
-				318D902621AD950A00957FE4 /* CurrencyCellTableViewCell.swift */,
-				318D902721AD950A00957FE4 /* CurrencyCellTableViewCell.xib */,
-			);
-			path = CurrencyCell;
 			sourceTree = "<group>";
 		};
 		31DE5D2C21AFEE1C00424D05 /* ConvertModel */ = {
@@ -151,6 +140,33 @@
 				31DE5D2D21AFEE4200424D05 /* ConvertModel.swift */,
 			);
 			path = ConvertModel;
+			sourceTree = "<group>";
+		};
+		31DE5D2F21B6575500424D05 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				318D902621AD950A00957FE4 /* CurrencyCellTableViewCell.swift */,
+				318D902721AD950A00957FE4 /* CurrencyCellTableViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		31DE5D3021B657A300424D05 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				318D902321AD2C4900957FE4 /* CurrenciesListViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		31DE5D3121B6581F00424D05 /* ExchangeRate */ = {
+			isa = PBXGroup;
+			children = (
+				318D9019218B201C00957FE4 /* Controller */,
+				31DE5D2C21AFEE1C00424D05 /* ConvertModel */,
+				318D901E21A6D57F00957FE4 /* Parser */,
+			);
+			path = ExchangeRate;
 			sourceTree = "<group>";
 		};
 		65EDCCB691FD9791823925EA /* Pods */ = {

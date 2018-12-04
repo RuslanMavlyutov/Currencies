@@ -4,80 +4,80 @@ import AlamofireObjectMapper
 import ObjectMapper
 
 final class DailyCurrencies: Mappable {
-    var Date: String?
-    var PreviousDate: String?
-    var PreviousURL: String?
-    var Timestamp: String?
-    var Valute: [String : CoinProperties] = [:]
+    var date: String?
+    var previousDate: String?
+    var previousURL: String?
+    var timestamp: String?
+    var valute: [String : CoinProperties] = [:]
 
     required init?(map: Map){
     }
 
     func mapping(map: Map) {
-        Date <- map["Date"]
-        PreviousDate <- map["PreviousDate"]
-        PreviousURL <- map["PreviousURL"]
-        Timestamp <- map["Timestamp"]
-        Valute <- map["Valute"]
+        date <- map["Date"]
+        previousDate <- map["PreviousDate"]
+        previousURL <- map["PreviousURL"]
+        timestamp <- map["Timestamp"]
+        valute <- map["Valute"]
     }
 }
 
 final class CoinProperties: Mappable {
-    var ID: String?
-    var NumCode: String?
-    var CharCode: String?
-    var Nominal: Int?
-    var Name: String?
-    var Value: Float?
-    var Previous: Float?
+    var id: String?
+    var numCode: String?
+    var charCode: String?
+    var nominal: Int?
+    var name: String?
+    var value: Float?
+    var previous: Float?
 
     required init?(map: Map){
     }
 
     func mapping(map: Map) {
-        ID <- map["ID"]
-        NumCode <- map["NumCode"]
-        CharCode <- map["CharCode"]
-        Nominal <- map["Nominal"]
-        Name <- map["Name"]
-        Value <- map["Value"]
-        Previous <- map["Previous"]
+        id <- map["ID"]
+        numCode <- map["NumCode"]
+        charCode <- map["CharCode"]
+        nominal <- map["Nominal"]
+        name <- map["Name"]
+        value <- map["Value"]
+        previous <- map["Previous"]
     }
 }
 
 final class CryptoCurrencies: Mappable {
-    var Time: [String : String] = [:]
-    var Disclaimer: String?
-    var ChartName: String?
-    var BPI: [String : fiatProperties] = [:]
+    var time: [String : String] = [:]
+    var disclaimer: String?
+    var chartName: String?
+    var bpi: [String : fiatProperties] = [:]
 
     required init?(map: Map) {
     }
 
     func mapping(map: Map) {
-        Time <- map["time"]
-        Disclaimer <- map["disclaimer"]
-        ChartName <- map["chartName"]
-        BPI <- map["bpi"]
+        time <- map["time"]
+        disclaimer <- map["disclaimer"]
+        chartName <- map["chartName"]
+        bpi <- map["bpi"]
     }
 }
 
 final class fiatProperties: Mappable {
-    var Code: String?
-    var Symbol: String?
-    var Rate: String?
-    var Description: String?
-    var RateFloat: Float?
+    var code: String?
+    var symbol: String?
+    var rate: String?
+    var description: String?
+    var rateFloat: Float?
 
     required init?(map: Map){
     }
 
     func mapping(map: Map) {
-        Code <- map["code"]
-        Symbol <- map["symbol"]
-        Rate <- map["rate"]
-        Description <- map["description"]
-        RateFloat <- map["rate_float"]
+        code <- map["code"]
+        symbol <- map["symbol"]
+        rate <- map["rate"]
+        description <- map["description"]
+        rateFloat <- map["rate_float"]
     }
 }
 
@@ -138,11 +138,11 @@ final class ExchangeRates {
         var rubleObject: Float = 0.0
         Alamofire.request(urlString).responseObject { (response: DataResponse<DailyCurrencies>) in
             let dailyCurrencies = response.result.value
-            if let valutes = dailyCurrencies?.Valute {
+            if let valutes = dailyCurrencies?.valute {
                 for coin in valutes {
-                    self.curValue[coin.value.CharCode!] = coin.value.Value!
-                    if coin.value.CharCode == KeyStrings.keyUSD {
-                        rubleObject = coin.value.Value!
+                    self.curValue[coin.value.charCode!] = coin.value.value!
+                    if coin.value.charCode == KeyStrings.keyUSD {
+                        rubleObject = coin.value.value!
                     }
                 }
             }
@@ -154,10 +154,10 @@ final class ExchangeRates {
         var rubleObject: Float = 0.0
         Alamofire.request(urlString).responseObject { (response: DataResponse<CryptoCurrencies>) in
             let dailyCurrencies = response.result.value
-            if let valutes = dailyCurrencies?.BPI {
+            if let valutes = dailyCurrencies?.bpi {
                 for coin in valutes {
                     if coin.key == KeyStrings.keyUSD {
-                        rubleObject = coin.value.RateFloat!
+                        rubleObject = coin.value.rateFloat!
                         break
                     }
                 }
@@ -171,10 +171,10 @@ final class ExchangeRates {
         var coinDescription = CoinDescription(description: String())
         Alamofire.request(urlString).responseObject { (response: DataResponse<DailyCurrencies>) in
             let dailyCurrencies = response.result.value
-            if let valutes = dailyCurrencies?.Valute {
+            if let valutes = dailyCurrencies?.valute {
                 for coin in valutes {
-                    coinDescription.description = coin.value.Name!
-                    currenciesList.coins[coin.value.CharCode!] = coinDescription
+                    coinDescription.description = coin.value.name!
+                    currenciesList.coins[coin.value.charCode!] = coinDescription
                 }
             }
             coinDescription.description = KeyStringsProperties.descriptRUB
