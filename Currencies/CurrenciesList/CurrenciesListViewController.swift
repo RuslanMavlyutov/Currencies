@@ -2,7 +2,7 @@ import UIKit
 
 class CurrenciesListViewController: UITableViewController {
     private var refresher: UIRefreshControl!
-    private var curList = [String : String]()
+    private var curList = CurrencyList(coins: [:])
     private var selectedCur = String()
     var delegate: CurrenciesListViewControllerDelegate?
 
@@ -12,7 +12,7 @@ class CurrenciesListViewController: UITableViewController {
         super.viewDidLoad()
     }
 
-    func showCurrencies(list: [String : String]) {
+    func showCurrencies(list: CurrencyList) {
         curList = list
         self.tableView.reloadData()
     }
@@ -22,14 +22,14 @@ class CurrenciesListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(curList.count)
-        return curList.count
+        print(curList.coins.count)
+        return curList.coins.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCell(at: indexPath)
-        var curCodes = [String](curList.keys)
-        var curDescription = [String](curList.values)
+        var curCodes = [String](curList.coins.keys)
+        var curDescription = [CoinDescription](curList.coins.values)
 
         cell.configureForCurrencyList(
             charCodeCurrency: curCodes[indexPath.row],
@@ -40,7 +40,7 @@ class CurrenciesListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var curCodes = [String](curList.keys)
+        var curCodes = [String](curList.coins.keys)
         selectedCur = curCodes[indexPath.row]
         self.delegate?.currenciesListViewController(self, didSelectCurrecncy: selectedCur)
     }

@@ -34,7 +34,6 @@ final class RateViewController: UIViewController {
     private let convertModel = ConvertModel()
     private var updateTimer: Timer!
     private var isFirstCurrencySelected = false
-    private var currencyList = [String : String]()
 
     private var formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -74,10 +73,8 @@ final class RateViewController: UIViewController {
 
     func currenciesList () {
         currencyModel.currencyList() { [weak self]
-            (result: [String : String]) in
+            (result: CurrencyList) in
             print(result)
-            self?.currencyList = result
-            self?.currencyList[KeyStringsProperties.keyRUB] = KeyStringsProperties.descriptRUB
             DispatchQueue.main.async {
                 if let vc = UIStoryboard.init(
                     name: "Main", bundle: Bundle.main)
@@ -85,7 +82,7 @@ final class RateViewController: UIViewController {
                     ) as? CurrenciesListViewController {
                     vc.delegate = self
                     self?.navigationController?.pushViewController(vc, animated: true)
-                    vc.showCurrencies(list: (self?.currencyList)!)
+                    vc.showCurrencies(list: result)
                 }
             }
         }

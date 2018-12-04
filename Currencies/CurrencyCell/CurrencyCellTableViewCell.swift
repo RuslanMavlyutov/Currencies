@@ -6,8 +6,8 @@ class CurrencyCellTableViewCell: UITableViewCell {
     @IBOutlet private weak var currencyDescriptionLabel: UILabel!
 
     func configureForCurrencyList(charCodeCurrency: String,
-                                  descriptionCurrency: String) {
+                                  descriptionCurrency: CoinDescription) {
         currencyNameLabel.text = charCodeCurrency
-        currencyDescriptionLabel.text = descriptionCurrency
+        currencyDescriptionLabel.text = descriptionCurrency.description
     }
 }
