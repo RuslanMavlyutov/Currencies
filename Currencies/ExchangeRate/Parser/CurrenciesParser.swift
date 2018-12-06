@@ -98,11 +98,7 @@ final class fiatProperties: Mappable {
 //}
 
 struct CurrencyList {
-    var coins: [String : CoinDescription]
-}
-
-struct CoinDescription {
-    var description: String
+    var coins: [String : String]
 }
 
 final class ExchangeRates {
@@ -168,17 +164,14 @@ final class ExchangeRates {
 
     func currencies(urlString: String, completion : @escaping (CurrencyList) -> Void) {
         var currenciesList = CurrencyList(coins: [:])
-        var coinDescription = CoinDescription(description: String())
         Alamofire.request(urlString).responseObject { (response: DataResponse<DailyCurrencies>) in
             let dailyCurrencies = response.result.value
             if let valutes = dailyCurrencies?.valute {
                 for coin in valutes {
-                    coinDescription.description = coin.value.name!
-                    currenciesList.coins[coin.value.charCode!] = coinDescription
+                    currenciesList.coins[coin.value.charCode!] = coin.value.name!
                 }
             }
-            coinDescription.description = KeyStringsProperties.descriptRUB
-            currenciesList.coins[KeyStringsProperties.keyRUB] = coinDescription
+            currenciesList.coins[KeyStringsProperties.keyRUB] = KeyStringsProperties.descriptRUB
             completion(currenciesList)
         }
     }

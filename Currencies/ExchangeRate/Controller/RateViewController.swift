@@ -34,6 +34,8 @@ final class RateViewController: UIViewController {
     private let convertModel = ConvertModel()
     private var updateTimer: Timer!
     private var isFirstCurrencySelected = false
+    private let storage = CoreDataPersistenceStorage()
+    private var curList: CurrencyList?
 
     private var formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -57,6 +59,10 @@ final class RateViewController: UIViewController {
         }
         //        updateTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(requestRate),
         //                                     userInfo: nil, repeats: true)
+        storage.loadPreviousCurrencies { result in
+            print(result)
+            curList = result
+        }
     }
 
     @objc func requestRate () {
@@ -72,14 +78,28 @@ final class RateViewController: UIViewController {
     }
 
     func currenciesList () {
+        if !(curList?.coins.isEmpty)! {
+            showCurrencies(list: curList!)
+        } else {
+            updateAndShowCurrencies()
+        }
+    }
+
+    func showCurrencies(list: CurrencyList) {
+        if let vc = viewController() {
+            vc.delegate = self
+            self.navigationController?.pushViewController(vc, animated: true)
+            vc.showCurrencies(list: list)
+        }
+    }
+
+    func updateAndShowCurrencies() {
         currencyModel.currencyList() { [weak self]
             (result: CurrencyList) in
             print(result)
+            self?.storage.saveDailyCurrencies(list: result)
             DispatchQueue.main.async {
-                if let vc = UIStoryboard.init(
-                    name: "Main", bundle: Bundle.main)
-                    .instantiateViewController(withIdentifier: "table"
-                    ) as? CurrenciesListViewController {
+                if let vc = self?.viewController() {
                     vc.delegate = self
                     self?.navigationController?.pushViewController(vc, animated: true)
                     vc.showCurrencies(list: result)
@@ -88,13 +108,23 @@ final class RateViewController: UIViewController {
         }
     }
 
+    func viewController() -> CurrenciesListViewController? {
+        return UIStoryboard.init(
+            name: "Main", bundle: Bundle.main)
+            .instantiateViewController(withIdentifier: "table"
+        ) as? CurrenciesListViewController
+    }
+
     func changeTextFieldText(string: String, for textField: UITextField) {
         textField.text = string
     }
 }
 
 extension RateViewController: CurrenciesListViewControllerDelegate {
-    func currenciesListViewController(_ ctrl: CurrenciesListViewController, didSelectCurrecncy currency: String) {
+    func currenciesListViewController(_ ctrl: CurrenciesListViewController,
+                                      didSelectCurrecncy currency: String,
+                                      listCurrency list: CurrencyList) {
+        curList = list
         if isFirstCurrencySelected {
             firstCurrencyButton.setTitle(currency, for: .normal)
             if !(firstCurrencyTextField.text?.isEmpty)! {
@@ -130,14 +160,10 @@ extension RateViewController: UITextFieldDelegate {
             let curVal = currencyModel.currencyValue()
             let firstCurrency = curVal[(firstCurrencyButton.titleLabel?.text)!]
             let secondCurrency = curVal[(lastCurrencyButton.titleLabel?.text)!]
-            let textFieldModel = TextFieldModel(
-                character: string
-                , firstCurrencyValue: firstCurrency!
-                , secondCurrencyValue: secondCurrency!
-                , firstTextFieldText: firstCurrencyTextField.text!
-                , secondTextFieldText: lastCurrencyTextField.text!
-                , isFirstTextFieldFilled: true)
-            let str = convertModel.convert(textFieldModel: textFieldModel)
+            let str = prepareToConvertModel(string: string,
+                                            firstValue: firstCurrency!,
+                                            secondValue: secondCurrency!,
+                                            isFirstTextField: true)
             changeTextFieldText(string: str, for: lastCurrencyTextField)
             return true
         } else if textField == lastCurrencyTextField {
@@ -147,19 +173,29 @@ extension RateViewController: UITextFieldDelegate {
             let curVal = currencyModel.currencyValue()
             let firstCurrency = curVal[(firstCurrencyButton.titleLabel?.text)!]
             let secondCurrency = curVal[(lastCurrencyButton.titleLabel?.text)!]
-            let textFieldModel = TextFieldModel(
-                character: string
-                , firstCurrencyValue: firstCurrency!
-                , secondCurrencyValue: secondCurrency!
-                , firstTextFieldText: firstCurrencyTextField.text!
-                , secondTextFieldText: lastCurrencyTextField.text!
-                , isFirstTextFieldFilled: false)
-            let str = convertModel.convert(textFieldModel: textFieldModel)
+            let str = prepareToConvertModel(string: string,
+                                            firstValue: firstCurrency!,
+                                            secondValue: secondCurrency!,
+                                            isFirstTextField: false)
             changeTextFieldText(string: str, for: firstCurrencyTextField)
             return true
         } else {
             return false
         }
+    }
+
+    func prepareToConvertModel(string str: String,
+                               firstValue: Float,
+                               secondValue: Float,
+                               isFirstTextField: Bool) -> String {
+        let textFieldModel = TextFieldModel(
+            character: str
+            , firstCurrencyValue: firstValue
+            , secondCurrencyValue: secondValue
+            , firstTextFieldText: firstCurrencyTextField.text!
+            , secondTextFieldText: lastCurrencyTextField.text!
+            , isFirstTextFieldFilled: isFirstTextField)
+        return convertModel.convert(textFieldModel: textFieldModel)
     }
 }
 

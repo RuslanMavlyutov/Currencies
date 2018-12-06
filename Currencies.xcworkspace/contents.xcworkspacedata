@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/ruslanmavlyutov/Documents/Projects Swift/Currencies/Currencies/CoreData/PersistenceCurrencies+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:Currencies.xcodeproj">
    </FileRef>
    <FileRef
