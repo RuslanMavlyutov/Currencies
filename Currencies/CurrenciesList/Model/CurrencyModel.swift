@@ -21,9 +21,8 @@ final class CurrencyModel {
         }
     }
 
-    func currencyList (completion: @escaping (_ result: CurrencyList) -> Void) {
+    func currencyList (completion: @escaping (_ result: DailyCurrencies) -> Void) {
         exchangeRates.currencies(urlString: CurrencyModel.CBR_LINK) { response in
-            print(response)
             completion(response)
         }
     }

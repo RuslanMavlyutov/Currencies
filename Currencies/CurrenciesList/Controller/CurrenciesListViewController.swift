@@ -2,7 +2,7 @@ import UIKit
 
 class CurrenciesListViewController: UITableViewController {
     private var refresher: UIRefreshControl!
-    private var curList = CurrencyList(coins: [:])
+    private var dailyCurrencies = DailyCurrencies()
     private var selectedCur = String()
     var delegate: CurrenciesListViewControllerDelegate?
 
@@ -25,10 +25,10 @@ class CurrenciesListViewController: UITableViewController {
     @objc func updateDailyCurrency() {
         let currencyModel = CurrencyModel()
         currencyModel.currencyList() { [weak self]
-            (result: CurrencyList) in
-            self?.curList = result
+            (result: DailyCurrencies) in
+            self?.dailyCurrencies = result
             let storage = CoreDataPersistenceStorage()
-            storage.saveDailyCurrencies(list: result)
+            storage.saveDailyCurrencies(dailyList: result)
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.refresher.endRefreshing()
@@ -36,8 +36,8 @@ class CurrenciesListViewController: UITableViewController {
         }
     }
 
-    func showCurrencies(list: CurrencyList) {
-        curList = list
+    func showCurrencies(list: DailyCurrencies) {
+        dailyCurrencies = list
         self.tableView.reloadData()
     }
 
@@ -46,14 +46,18 @@ class CurrenciesListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(curList.coins.count)
-        return curList.coins.count
+        return dailyCurrencies.valute.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCell(at: indexPath)
-        var curCodes = [String](curList.coins.keys)
-        var curDescription = [String](curList.coins.values)
+        var curCodes = [String](dailyCurrencies.valute.keys)
+
+        let coins = [CoinProperties](dailyCurrencies.valute.values)
+        var curDescription: [String] = []
+        for coin in coins {
+            curDescription.append(coin.name!)
+        }
 
         cell.configureForCurrencyList(
             charCodeCurrency: curCodes[indexPath.row],
@@ -64,16 +68,16 @@ class CurrenciesListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var curCodes = [String](curList.coins.keys)
+        var curCodes = [String](dailyCurrencies.valute.keys)
         selectedCur = curCodes[indexPath.row]
-        self.delegate?.currenciesListViewController(self, didSelectCurrecncy: selectedCur, listCurrency: curList)
+        self.delegate?.currenciesListViewController(self, didSelectCurrecncy: selectedCur, listCurrency: dailyCurrencies)
     }
 }
 
 protocol CurrenciesListViewControllerDelegate {
     func currenciesListViewController(_ ctrl: CurrenciesListViewController,
                                       didSelectCurrecncy currency: String,
-                                      listCurrency list: CurrencyList)
+                                      listCurrency list: DailyCurrencies)
 }
 
 extension UITableView {

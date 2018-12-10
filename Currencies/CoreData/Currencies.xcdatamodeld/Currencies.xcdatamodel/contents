@@ -3,8 +3,30 @@
     <entity name="PersistenceCurrencies" representedClassName=".PersistenceCurrencies" syncable="YES">
         <attribute name="coins" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="coinsDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="previousDate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="previousURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeStamp" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="valute" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PersistenceValute" inverseName="currencies" inverseEntity="PersistenceValute" syncable="YES"/>
+    </entity>
+    <entity name="PersistenceCurrencyDescription" representedClassName=".PersistenceCurrencyDescription" syncable="YES">
+        <attribute name="charCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nominal" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="numCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="previous" optional="YES" attributeType="Float" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="coins" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersistenceValute" inverseName="descriptionValute" inverseEntity="PersistenceValute" syncable="YES"/>
+    </entity>
+    <entity name="PersistenceValute" representedClassName=".PersistenceValute" syncable="YES">
+        <attribute name="coinName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="currencies" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersistenceCurrencies" inverseName="valute" inverseEntity="PersistenceCurrencies" syncable="YES"/>
+        <relationship name="descriptionValute" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersistenceCurrencyDescription" inverseName="coins" inverseEntity="PersistenceCurrencyDescription" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PersistenceCurrencies" positionX="-36" positionY="9" width="128" height="75"/>
+        <element name="PersistenceCurrencies" positionX="-234" positionY="113" width="128" height="148"/>
+        <element name="PersistenceCurrencyDescription" positionX="225" positionY="116" width="128" height="163"/>
+        <element name="PersistenceValute" positionX="-0" positionY="153" width="128" height="88"/>
     </elements>
 </model>

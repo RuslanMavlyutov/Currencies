@@ -1,4 +1,4 @@
-//
+ //
 //  ViewController.swift
 //  Currencies
 //
@@ -35,7 +35,7 @@ final class RateViewController: UIViewController {
     private var updateTimer: Timer!
     private var isFirstCurrencySelected = false
     private let storage = CoreDataPersistenceStorage()
-    private var curList: CurrencyList?
+    private var dailyCurrencies: DailyCurrencies?
 
     private var formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -61,7 +61,7 @@ final class RateViewController: UIViewController {
         //                                     userInfo: nil, repeats: true)
         storage.loadPreviousCurrencies { result in
             print(result)
-            curList = result
+            dailyCurrencies = result
         }
     }
 
@@ -78,26 +78,26 @@ final class RateViewController: UIViewController {
     }
 
     func currenciesList () {
-        if !(curList?.coins.isEmpty)! {
-            showCurrencies(list: curList!)
+        if !(dailyCurrencies?.valute.isEmpty)! {
+            showCurrencies(dailyList: dailyCurrencies!)
         } else {
             updateAndShowCurrencies()
         }
     }
 
-    func showCurrencies(list: CurrencyList) {
+    func showCurrencies(dailyList: DailyCurrencies) {
         if let vc = viewController() {
             vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
-            vc.showCurrencies(list: list)
+            vc.showCurrencies(list: dailyList)
         }
     }
 
     func updateAndShowCurrencies() {
         currencyModel.currencyList() { [weak self]
-            (result: CurrencyList) in
+            (result: DailyCurrencies) in
             print(result)
-            self?.storage.saveDailyCurrencies(list: result)
+            self?.storage.saveDailyCurrencies(dailyList: result)
             DispatchQueue.main.async {
                 if let vc = self?.viewController() {
                     vc.delegate = self
@@ -123,8 +123,8 @@ final class RateViewController: UIViewController {
 extension RateViewController: CurrenciesListViewControllerDelegate {
     func currenciesListViewController(_ ctrl: CurrenciesListViewController,
                                       didSelectCurrecncy currency: String,
-                                      listCurrency list: CurrencyList) {
-        curList = list
+                                      listCurrency list: DailyCurrencies) {
+        dailyCurrencies = list
         if isFirstCurrencySelected {
             firstCurrencyButton.setTitle(currency, for: .normal)
             if !(firstCurrencyTextField.text?.isEmpty)! {

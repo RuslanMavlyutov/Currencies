@@ -2,13 +2,13 @@ import Foundation
 import CoreData
 
 protocol PersistenceStorage {
-    func saveDailyCurrencies(list: CurrencyList)
-    func loadPreviousCurrencies(completion: (CurrencyList) -> Void)
+    func saveDailyCurrencies(dailyList: DailyCurrencies)
+    func loadPreviousCurrencies(completion: (DailyCurrencies) -> Void)
 }
 
 final class CoreDataPersistenceStorage: PersistenceStorage {
 
-    var context: NSManagedObjectContext!
+    private var context: NSManagedObjectContext!
 
     lazy var persistantContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Currencies")
@@ -24,26 +24,37 @@ final class CoreDataPersistenceStorage: PersistenceStorage {
         context = persistantContainer.viewContext
     }
 
-    func saveDailyCurrencies(list: CurrencyList) {
+    func saveDailyCurrencies (dailyList: DailyCurrencies) {
         fetchPersistenceCurrencies { request in
             if !request.isEmpty {
                 removeCurrencies(coins: request)
             }
             var perCur: PersistenceCurrencies
-            for (coin, description) in list.coins {
-                perCur = PersistenceCurrencies(context: context)
-                CurrencyMapper.fillPersistenceCurrencies(currencies: perCur,
-                                                         coinName: coin,
-                                                         coinDescription: description)
-                saveContext()
+            perCur = PersistenceCurrencies(context: context)
+
+            DailyCurrenciesMapper.fillPersistenceCurrencies(currencies: perCur, list: dailyList)
+
+            var persistenceValute: PersistenceValute
+            for coin in (dailyList.valute) {
+                persistenceValute = PersistenceValute(context: context)
+
+                ValuteMapper.fillPersistenceValute(valute: persistenceValute, name: coin.key)
+
+                let persistenceCurrencyDescription = PersistenceCurrencyDescription(context: context)
+                CurrencyDescriptionMapper.fillPersistenceCurrencyDescription(currencyDescription: persistenceCurrencyDescription,
+                                                             list: coin.value)
+                persistenceValute.descriptionValute = persistenceCurrencyDescription
+                perCur.addToValute(persistenceValute)
             }
+            saveContext()
         }
     }
 
-    func loadPreviousCurrencies(completion: (CurrencyList) -> Void) {
+    func loadPreviousCurrencies(completion: (DailyCurrencies) -> Void) {
         fetchPersistenceCurrencies { coins in
-            let curList = CurrencyMapper.currecniesParser(currencies: coins)
-            completion(curList)
+            print(coins)
+            let dailyCurrencies = DailyCurrenciesMapper.currecniesParser(currencies: coins)
+            completion(dailyCurrencies)
         }
     }
 

@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3125CD5D21BA585600668376 /* PersistenceValute+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3125CD5821BA585600668376 /* PersistenceValute+CoreDataClass.swift */; };
+		3125CD5F21BA585600668376 /* PersistenceCurrencyDescription+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3125CD5A21BA585600668376 /* PersistenceCurrencyDescription+CoreDataClass.swift */; };
+		3125CD6421BA65A500668376 /* PersistenceCurrencies+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3125CD6121BA65A500668376 /* PersistenceCurrencies+CoreDataProperties.swift */; };
+		3125CD6521BA65A500668376 /* PersistenceCurrencyDescription+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3125CD6221BA65A500668376 /* PersistenceCurrencyDescription+CoreDataProperties.swift */; };
+		3125CD6E21BA933600668376 /* PersistenceValute+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3125CD6D21BA933600668376 /* PersistenceValute+CoreDataProperties.swift */; };
+		3125CD7521BE4F5000668376 /* ValuteMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3125CD7421BE4F5000668376 /* ValuteMapper.swift */; };
+		3125CD7721BE4F7900668376 /* CurrencyDescriptionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3125CD7621BE4F7900668376 /* CurrencyDescriptionMapper.swift */; };
 		318D9008218B06F800957FE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318D9007218B06F800957FE4 /* AppDelegate.swift */; };
 		318D900A218B06F800957FE4 /* RateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318D9009218B06F800957FE4 /* RateViewController.swift */; };
 		318D900D218B06F800957FE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 318D900B218B06F800957FE4 /* Main.storyboard */; };
@@ -21,12 +28,18 @@
 		31DE5D6E21B7CBE300424D05 /* Currencies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 31DE5D6C21B7CBE300424D05 /* Currencies.xcdatamodeld */; };
 		31DE5D7D21B7CFC200424D05 /* PersistenceCurrencies+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE5D7B21B7CFC200424D05 /* PersistenceCurrencies+CoreDataClass.swift */; };
 		31DE5D8121B7D0ED00424D05 /* PersistenceStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE5D8021B7D0ED00424D05 /* PersistenceStorage.swift */; };
-		31DE5D8521B7F5BA00424D05 /* PersistenceCurrencies+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE5D8421B7F5BA00424D05 /* PersistenceCurrencies+CoreDataProperties.swift */; };
-		31DE5D8821B9168100424D05 /* CurrencyMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE5D8721B9168100424D05 /* CurrencyMapper.swift */; };
+		31DE5D8821B9168100424D05 /* DailyCurrenciesMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DE5D8721B9168100424D05 /* DailyCurrenciesMapper.swift */; };
 		AEDF2A1CB23963FCEEACACC5 /* Pods_Currencies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847362578877A7C98FA9DFDA /* Pods_Currencies.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3125CD5821BA585600668376 /* PersistenceValute+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PersistenceValute+CoreDataClass.swift"; path = "/Users/ruslanmavlyutov/Documents/Projects Swift/Currencies/Currencies/CoreData/PersistenceValute+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		3125CD5A21BA585600668376 /* PersistenceCurrencyDescription+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PersistenceCurrencyDescription+CoreDataClass.swift"; path = "/Users/ruslanmavlyutov/Documents/Projects Swift/Currencies/Currencies/CoreData/PersistenceCurrencyDescription+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		3125CD6121BA65A500668376 /* PersistenceCurrencies+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PersistenceCurrencies+CoreDataProperties.swift"; path = "/Users/ruslanmavlyutov/Documents/Projects Swift/Currencies/Currencies/CoreData/PersistenceCurrencies+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		3125CD6221BA65A500668376 /* PersistenceCurrencyDescription+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PersistenceCurrencyDescription+CoreDataProperties.swift"; path = "/Users/ruslanmavlyutov/Documents/Projects Swift/Currencies/Currencies/CoreData/PersistenceCurrencyDescription+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		3125CD6D21BA933600668376 /* PersistenceValute+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PersistenceValute+CoreDataProperties.swift"; path = "/Users/ruslanmavlyutov/Documents/Projects Swift/Currencies/Currencies/CoreData/PersistenceValute+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		3125CD7421BE4F5000668376 /* ValuteMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuteMapper.swift; sourceTree = "<group>"; };
+		3125CD7621BE4F7900668376 /* CurrencyDescriptionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyDescriptionMapper.swift; sourceTree = "<group>"; };
 		318D9004218B06F800957FE4 /* Currencies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Currencies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		318D9007218B06F800957FE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		318D9009218B06F800957FE4 /* RateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateViewController.swift; sourceTree = "<group>"; };
@@ -43,8 +56,7 @@
 		31DE5D6D21B7CBE300424D05 /* Currencies.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Currencies.xcdatamodel; sourceTree = "<group>"; };
 		31DE5D7B21B7CFC200424D05 /* PersistenceCurrencies+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PersistenceCurrencies+CoreDataClass.swift"; sourceTree = "<group>"; };
 		31DE5D8021B7D0ED00424D05 /* PersistenceStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceStorage.swift; sourceTree = "<group>"; };
-		31DE5D8421B7F5BA00424D05 /* PersistenceCurrencies+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PersistenceCurrencies+CoreDataProperties.swift"; path = "/Users/ruslanmavlyutov/Documents/Projects Swift/Currencies/Currencies/CoreData/PersistenceCurrencies+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
-		31DE5D8721B9168100424D05 /* CurrencyMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyMapper.swift; sourceTree = "<group>"; };
+		31DE5D8721B9168100424D05 /* DailyCurrenciesMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCurrenciesMapper.swift; sourceTree = "<group>"; };
 		3E125B41E35B8542D1714DD6 /* Pods-Currencies.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Currencies.release.xcconfig"; path = "Pods/Target Support Files/Pods-Currencies/Pods-Currencies.release.xcconfig"; sourceTree = "<group>"; };
 		5E737CA3DC914D46DFFABECC /* Pods-Currencies.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Currencies.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Currencies/Pods-Currencies.debug.xcconfig"; sourceTree = "<group>"; };
 		847362578877A7C98FA9DFDA /* Pods_Currencies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Currencies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,6 +80,30 @@
 				847362578877A7C98FA9DFDA /* Pods_Currencies.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3125CD7121BE4E8300668376 /* DailyCurrenciesMapper */ = {
+			isa = PBXGroup;
+			children = (
+				31DE5D8721B9168100424D05 /* DailyCurrenciesMapper.swift */,
+			);
+			path = DailyCurrenciesMapper;
+			sourceTree = "<group>";
+		};
+		3125CD7221BE4F1400668376 /* ValuteMapper */ = {
+			isa = PBXGroup;
+			children = (
+				3125CD7421BE4F5000668376 /* ValuteMapper.swift */,
+			);
+			path = ValuteMapper;
+			sourceTree = "<group>";
+		};
+		3125CD7321BE4F2800668376 /* CurrencyDescriptionMapper */ = {
+			isa = PBXGroup;
+			children = (
+				3125CD7621BE4F7900668376 /* CurrencyDescriptionMapper.swift */,
+			);
+			path = CurrencyDescriptionMapper;
 			sourceTree = "<group>";
 		};
 		318D8FFB218B06F800957FE4 = {
@@ -185,8 +221,12 @@
 		31DE5D6B21B7CBC600424D05 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				3125CD6D21BA933600668376 /* PersistenceValute+CoreDataProperties.swift */,
+				3125CD6221BA65A500668376 /* PersistenceCurrencyDescription+CoreDataProperties.swift */,
+				3125CD6121BA65A500668376 /* PersistenceCurrencies+CoreDataProperties.swift */,
+				3125CD5821BA585600668376 /* PersistenceValute+CoreDataClass.swift */,
 				31DE5D7B21B7CFC200424D05 /* PersistenceCurrencies+CoreDataClass.swift */,
-				31DE5D8421B7F5BA00424D05 /* PersistenceCurrencies+CoreDataProperties.swift */,
+				3125CD5A21BA585600668376 /* PersistenceCurrencyDescription+CoreDataClass.swift */,
 				31DE5D6C21B7CBE300424D05 /* Currencies.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -203,7 +243,9 @@
 		31DE5D8621B9166900424D05 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				31DE5D8721B9168100424D05 /* CurrencyMapper.swift */,
+				3125CD7121BE4E8300668376 /* DailyCurrenciesMapper */,
+				3125CD7221BE4F1400668376 /* ValuteMapper */,
+				3125CD7321BE4F2800668376 /* CurrencyDescriptionMapper */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -338,14 +380,20 @@
 				31DE5D8121B7D0ED00424D05 /* PersistenceStorage.swift in Sources */,
 				31DE5D2E21AFEE4200424D05 /* ConvertModel.swift in Sources */,
 				318D902421AD2C4900957FE4 /* CurrenciesListViewController.swift in Sources */,
+				3125CD5F21BA585600668376 /* PersistenceCurrencyDescription+CoreDataClass.swift in Sources */,
 				31DE5D6E21B7CBE300424D05 /* Currencies.xcdatamodeld in Sources */,
+				3125CD6E21BA933600668376 /* PersistenceValute+CoreDataProperties.swift in Sources */,
+				3125CD5D21BA585600668376 /* PersistenceValute+CoreDataClass.swift in Sources */,
 				318D900A218B06F800957FE4 /* RateViewController.swift in Sources */,
 				318D9008218B06F800957FE4 /* AppDelegate.swift in Sources */,
+				3125CD7721BE4F7900668376 /* CurrencyDescriptionMapper.swift in Sources */,
 				318D902121A7F15900957FE4 /* CurrencyModel.swift in Sources */,
+				3125CD7521BE4F5000668376 /* ValuteMapper.swift in Sources */,
 				318D902821AD950A00957FE4 /* CurrencyCellTableViewCell.swift in Sources */,
+				3125CD6421BA65A500668376 /* PersistenceCurrencies+CoreDataProperties.swift in Sources */,
 				318D901C21A6B66C00957FE4 /* CurrenciesParser.swift in Sources */,
-				31DE5D8521B7F5BA00424D05 /* PersistenceCurrencies+CoreDataProperties.swift in Sources */,
-				31DE5D8821B9168100424D05 /* CurrencyMapper.swift in Sources */,
+				31DE5D8821B9168100424D05 /* DailyCurrenciesMapper.swift in Sources */,
+				3125CD6521BA65A500668376 /* PersistenceCurrencyDescription+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

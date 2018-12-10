@@ -3,14 +3,19 @@ import Alamofire
 import AlamofireObjectMapper
 import ObjectMapper
 
-final class DailyCurrencies: Mappable {
+final class DailyCurrencies: NSObject, Mappable {
     var date: String?
     var previousDate: String?
     var previousURL: String?
     var timestamp: String?
     var valute: [String : CoinProperties] = [:]
 
-    required init?(map: Map){
+    override init() {
+        super.init()
+    }
+
+    convenience required init?(map: Map){
+        self.init()
     }
 
     func mapping(map: Map) {
@@ -22,7 +27,7 @@ final class DailyCurrencies: Mappable {
     }
 }
 
-final class CoinProperties: Mappable {
+final class CoinProperties: NSObject, Mappable {
     var id: String?
     var numCode: String?
     var charCode: String?
@@ -31,7 +36,12 @@ final class CoinProperties: Mappable {
     var value: Float?
     var previous: Float?
 
-    required init?(map: Map){
+    override init() {
+        super.init()
+    }
+
+    convenience required init?(map: Map){
+        self.init()
     }
 
     func mapping(map: Map) {
@@ -97,10 +107,6 @@ final class fiatProperties: Mappable {
 //    }
 //}
 
-struct CurrencyList {
-    var coins: [String : String]
-}
-
 final class ExchangeRates {
     private var curValue : [String : Float] = [:]
     struct KeyStrings {
@@ -162,18 +168,27 @@ final class ExchangeRates {
         }
     }
 
-    func currencies(urlString: String, completion : @escaping (CurrencyList) -> Void) {
-        var currenciesList = CurrencyList(coins: [:])
+    func currencies(urlString: String, completion : @escaping (DailyCurrencies) -> Void) {
         Alamofire.request(urlString).responseObject { (response: DataResponse<DailyCurrencies>) in
-            let dailyCurrencies = response.result.value
-            if let valutes = dailyCurrencies?.valute {
-                for coin in valutes {
-                    currenciesList.coins[coin.value.charCode!] = coin.value.name!
-                }
+            guard let dailyCurrencies = response.result.value else {
+                return
             }
-            currenciesList.coins[KeyStringsProperties.keyRUB] = KeyStringsProperties.descriptRUB
-            completion(currenciesList)
+            dailyCurrencies.valute[KeyStringsProperties.keyRUB] = self.fillRUBValute()
+            completion(dailyCurrencies)
         }
+    }
+
+    func fillRUBValute() -> CoinProperties {
+        let coinProperties = CoinProperties()
+        coinProperties.id = String()
+        coinProperties.numCode = String()
+        coinProperties.charCode = String()
+        coinProperties.nominal = Int()
+        coinProperties.name = KeyStringsProperties.descriptRUB
+        coinProperties.value = Float()
+        coinProperties.previous = Float()
+
+        return coinProperties
     }
 
     func currencyValue() -> [String : Float] {
