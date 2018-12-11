@@ -49,7 +49,7 @@ final class ConvertModel {
         }
     }
 
-    func changeCurrecncy(textFieldModel: TextFieldModel) -> String {
+    func changeCurrecncy(_ textFieldModel: TextFieldModel) -> String {
         var numberStr = textFieldModel.firstTextFieldText
         let ratio = textFieldModel.firstCurrencyValue / textFieldModel.secondCurrencyValue
         if numberStr == KeyStringsProperties.keyDot {

@@ -35,7 +35,7 @@ final class RateViewController: UIViewController {
     private var updateTimer: Timer!
     private var isFirstCurrencySelected = false
     private let storage = CoreDataPersistenceStorage()
-    private var dailyCurrencies: DailyCurrencies?
+    private var dailyCurrency: DailyCurrency?
 
     private var formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -48,61 +48,93 @@ final class RateViewController: UIViewController {
         priceUsdLabel.text = KeyStringsProperties.text
         priceBTCLabel.text = KeyStringsProperties.text
         timeLabel.text = String()
-
-        currencyModel.usdToRouble() {
-            (result: Float) in
-            self.priceUsdLabel.text = "$1 = \(result) руб."
-            if self.currencyModel.currencyValue().count > 2 {
-                self.firstCurrencyButton.setTitle(KeyStringsProperties.keyEUR, for: .normal)
-                self.lastCurrencyButton.setTitle(KeyStringsProperties.keyRUB, for: .normal)
-            }
-        }
         //        updateTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(requestRate),
         //                                     userInfo: nil, repeats: true)
-        storage.loadPreviousCurrencies { result in
-            print(result)
-            dailyCurrencies = result
+        storage.loadPreviousCurrencies { [weak self] result in
+            self?.dailyCurrency = result
+            if (self?.dailyCurrency?.valute.isEmpty)! {
+                self?.currency(completion: { dailyCurrency in
+                    guard let valueUSD = self?.currencyModel.usdToRouble(dailyCurrency) else {
+                        return
+                    }
+                    self?.setTextUI(valueUSD)
+                })
+            } else {
+                guard let valueUSD = self?.currencyModel.usdToRouble((self?.dailyCurrency)!) else {
+                    return
+                }
+                self?.setTextUI(valueUSD)
+            }
+        }
+    }
+
+    func currency(completion: @escaping (_ result: DailyCurrency) -> Void) {
+        currencyModel.currencyList { [weak self] currency in
+            self?.dailyCurrency = currency
+            DispatchQueue.main.async {
+                completion(currency)
+            }
+        }
+    }
+
+    func setTextUI(_ value: Float) {
+        if !value.isZero {
+            priceUsdLabel.text = "$1 = \(value) руб."
+            firstCurrencyButton.setTitle(KeyStringsProperties.keyEUR, for: .normal)
+            lastCurrencyButton.setTitle(KeyStringsProperties.keyRUB, for: .normal)
         }
     }
 
     @objc func requestRate () {
-        currencyModel.usdToRouble() { [weak self]
-            (result: Float) in
-            self?.priceUsdLabel.text = "$1 = \(result) руб."
+        setTextUSDToRouble()
+        setTextUSDPerOneBTC()
+    }
+
+    func setTextUSDToRouble() {
+        if (dailyCurrency?.valute.isEmpty)! {
+            return
         }
-        currencyModel.btcToUsd() { [weak self]
-            (result: Float) in
-            self?.priceBTCLabel.text = "1 BTC = $\(result)"
-            self?.timeLabel.text = self?.formatter.string(from: Date())
+        setTextUI(currencyModel.usdToRouble(dailyCurrency!))
+    }
+
+    func setTextUSDPerOneBTC() {
+        currencyModel.cryptoCurrencyList {  [weak self] cryptoCurrency in
+            if !cryptoCurrency.bpi.isEmpty {
+                guard let value = self?.currencyModel.usdPerOneBitcoin(cryptoCurrency) else {
+                    return
+                }
+                self?.priceBTCLabel.text = "1 BTC = $\(value)"
+                self?.timeLabel.text = self?.formatter.string(from: Date())
+            }
         }
     }
 
     func currenciesList () {
-        if !(dailyCurrencies?.valute.isEmpty)! {
-            showCurrencies(dailyList: dailyCurrencies!)
+        if !(dailyCurrency?.valute.isEmpty)! {
+            showCurrencies(dailyCurrency!)
         } else {
             updateAndShowCurrencies()
         }
     }
 
-    func showCurrencies(dailyList: DailyCurrencies) {
+    func showCurrencies(_ dailyList: DailyCurrency) {
         if let vc = viewController() {
             vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
-            vc.showCurrencies(list: dailyList)
+            vc.showCurrencies(dailyList)
         }
     }
 
     func updateAndShowCurrencies() {
         currencyModel.currencyList() { [weak self]
-            (result: DailyCurrencies) in
-            print(result)
-            self?.storage.saveDailyCurrencies(dailyList: result)
+            (dailyCurrency: DailyCurrency) in
+            print(dailyCurrency)
+            self?.storage.saveDailyCurrencies(dailyCurrency)
             DispatchQueue.main.async {
                 if let vc = self?.viewController() {
                     vc.delegate = self
                     self?.navigationController?.pushViewController(vc, animated: true)
-                    vc.showCurrencies(list: result)
+                    vc.showCurrencies(dailyCurrency)
                 }
             }
         }
@@ -123,14 +155,13 @@ final class RateViewController: UIViewController {
 extension RateViewController: CurrenciesListViewControllerDelegate {
     func currenciesListViewController(_ ctrl: CurrenciesListViewController,
                                       didSelectCurrecncy currency: String,
-                                      listCurrency list: DailyCurrencies) {
-        dailyCurrencies = list
+                                      listCurrency list: DailyCurrency) {
+        dailyCurrency = list
         if isFirstCurrencySelected {
             firstCurrencyButton.setTitle(currency, for: .normal)
             if !(firstCurrencyTextField.text?.isEmpty)! {
-                let curVal = currencyModel.currencyValue()
-                let firstCurrency = curVal[currency]
-                let secondCurrency = curVal[(lastCurrencyButton.titleLabel?.text)!]
+                let firstCurrency = dailyCurrency?.valute[currency]?.value
+                let secondCurrency = dailyCurrency?.valute[(lastCurrencyButton.titleLabel?.text)!]?.value
                 let textFieldModel = TextFieldModel(
                     character: String()
                     , firstCurrencyValue: firstCurrency!
@@ -138,7 +169,7 @@ extension RateViewController: CurrenciesListViewControllerDelegate {
                     , firstTextFieldText: firstCurrencyTextField.text!
                     , secondTextFieldText: currency
                     , isFirstTextFieldFilled: true)
-                let str = convertModel.changeCurrecncy(textFieldModel: textFieldModel)
+                let str = convertModel.changeCurrecncy(textFieldModel)
                 changeTextFieldText(string: str, for: lastCurrencyTextField)
             }
         }
@@ -148,7 +179,8 @@ extension RateViewController: CurrenciesListViewControllerDelegate {
 
 extension RateViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard NSCharacterSet(charactersIn: KeyStringsProperties.characters).isSuperset(of: NSCharacterSet(charactersIn: string) as CharacterSet) else {
+        guard NSCharacterSet(charactersIn: KeyStringsProperties.characters).isSuperset(of: NSCharacterSet(charactersIn: string) as CharacterSet),
+            !((dailyCurrency?.valute.isEmpty)!) else {
             return false
         }
 
@@ -156,10 +188,9 @@ extension RateViewController: UITextFieldDelegate {
             if string == KeyStringsProperties.keyDot, (firstCurrencyTextField.text?.contains(KeyStringsProperties.keyDot))! {
                 return false
             }
-
-            let curVal = currencyModel.currencyValue()
-            let firstCurrency = curVal[(firstCurrencyButton.titleLabel?.text)!]
-            let secondCurrency = curVal[(lastCurrencyButton.titleLabel?.text)!]
+            print((lastCurrencyButton.titleLabel?.text)!)
+            let firstCurrency = dailyCurrency?.valute[(firstCurrencyButton.titleLabel?.text)!]?.value
+            let secondCurrency = dailyCurrency?.valute[(lastCurrencyButton.titleLabel?.text)!]?.value
             let str = prepareToConvertModel(string: string,
                                             firstValue: firstCurrency!,
                                             secondValue: secondCurrency!,
@@ -170,9 +201,8 @@ extension RateViewController: UITextFieldDelegate {
             if string == KeyStringsProperties.keyDot, (lastCurrencyTextField.text?.contains(KeyStringsProperties.keyDot))! {
                 return false
             }
-            let curVal = currencyModel.currencyValue()
-            let firstCurrency = curVal[(firstCurrencyButton.titleLabel?.text)!]
-            let secondCurrency = curVal[(lastCurrencyButton.titleLabel?.text)!]
+            let firstCurrency = dailyCurrency?.valute[(firstCurrencyButton.titleLabel?.text)!]?.value
+            let secondCurrency = dailyCurrency?.valute[(lastCurrencyButton.titleLabel?.text)!]?.value
             let str = prepareToConvertModel(string: string,
                                             firstValue: firstCurrency!,
                                             secondValue: secondCurrency!,

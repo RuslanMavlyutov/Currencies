@@ -2,7 +2,7 @@
 //  PersistenceValute+CoreDataProperties.swift
 //  
 //
-//  Created by Ruslan Mavlyutov on 07/12/2018.
+//  Created by Ruslan Mavlyutov on 10/12/2018.
 //
 //
 
@@ -17,7 +17,7 @@ extension PersistenceValute {
     }
 
     @NSManaged public var coinName: String?
-    @NSManaged public var currencies: PersistenceCurrencies?
+    @NSManaged public var currencies: PersistenceCurrency?
     @NSManaged public var descriptionValute: PersistenceCurrencyDescription?
 
 }

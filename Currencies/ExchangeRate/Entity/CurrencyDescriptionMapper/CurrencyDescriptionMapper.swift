@@ -2,7 +2,7 @@ import Foundation
 
 final class CurrencyDescriptionMapper {
     static func fillPersistenceCurrencyDescription(currencyDescription: PersistenceCurrencyDescription,
-                                                   list: CoinProperties) {
+                                                   list: CoinProperty) {
         currencyDescription.id = list.id
         currencyDescription.numCode = list.numCode
         currencyDescription.charCode = list.charCode

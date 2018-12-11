@@ -7,27 +7,41 @@ final class CurrencyModel {
 
     private let exchangeRates = ExchangeRates()
 
-    func usdToRouble (completion: @escaping (_ result: Float) -> Void) {
-        exchangeRates.rublePerOneDollar(urlString: CurrencyModel.CBR_LINK) { response in
-            print(response)
-            completion(response)
+    func usdToRouble (_ currency: DailyCurrency) -> Float {
+        var valueUSD = Float()
+        for coin in currency.valute {
+            if coin.key == ExchangeRates.KeyStrings.keyUSD {
+                valueUSD = coin.value.value!
+                break
+            }
+        }
+        return valueUSD
+    }
+
+    func usdPerOneBitcoin(_ currency: CryptoCurrency) ->Float {
+        var valueUSD = Float()
+        for coin in currency.bpi {
+            if coin.key == ExchangeRates.KeyStrings.keyUSD {
+                valueUSD = coin.value.rateFloat!
+                break
+            }
+        }
+        return valueUSD
+    }
+
+    func cryptoCurrencyList (completion: @escaping (_ result: CryptoCurrency) -> Void) {
+        exchangeRates.cryptoCurrency(urlString: CurrencyModel.CRYPTO_LINK) { response in
+            DispatchQueue.main.async {
+                completion(response)
+            }
         }
     }
 
-    func btcToUsd (completion: @escaping (_ result: Float) -> Void) {
-        exchangeRates.usdPerOneBitcoin(urlString: CurrencyModel.CRYPTO_LINK) { response in
-            print(response)
-            completion(response)
+    func currencyList (completion: @escaping (_ result: DailyCurrency) -> Void) {
+        exchangeRates.currency(urlString: CurrencyModel.CBR_LINK) { response in
+            DispatchQueue.main.async {
+                completion(response)
+            }
         }
-    }
-
-    func currencyList (completion: @escaping (_ result: DailyCurrencies) -> Void) {
-        exchangeRates.currencies(urlString: CurrencyModel.CBR_LINK) { response in
-            completion(response)
-        }
-    }
-
-    func currencyValue() -> [String : Float] {
-        return exchangeRates.currencyValue()
     }
 }

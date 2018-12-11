@@ -2,11 +2,13 @@ import UIKit
 
 class CurrenciesListViewController: UITableViewController {
     private var refresher: UIRefreshControl!
-    private var dailyCurrencies = DailyCurrencies()
+    private var dailyCurrency = DailyCurrency()
     private var selectedCur = String()
     var delegate: CurrenciesListViewControllerDelegate?
 
     @IBOutlet private var table: UITableView!
+
+    private let storage = CoreDataPersistenceStorage()
 
     struct KeyFunc {
         static let keyValute = "pull to refresh"
@@ -14,10 +16,8 @@ class CurrenciesListViewController: UITableViewController {
 
     override func viewDidLoad() {
         tableView.register(cellNibForClass: CurrencyCellTableViewCell.self)
-        refresher = UIRefreshControl()
-        refresher.attributedTitle = NSAttributedString(string: KeyFunc.keyValute)
-        refresher.addTarget(self, action: #selector(CurrenciesListViewController.updateDailyCurrency), for: UIControlEvents.valueChanged)
-        self.tableView.addSubview(refresher)
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(CurrenciesListViewController.updateDailyCurrency), for: .valueChanged)
 
         super.viewDidLoad()
     }
@@ -25,19 +25,18 @@ class CurrenciesListViewController: UITableViewController {
     @objc func updateDailyCurrency() {
         let currencyModel = CurrencyModel()
         currencyModel.currencyList() { [weak self]
-            (result: DailyCurrencies) in
-            self?.dailyCurrencies = result
-            let storage = CoreDataPersistenceStorage()
-            storage.saveDailyCurrencies(dailyList: result)
+            (result: DailyCurrency) in
+            self?.dailyCurrency = result
+            self?.storage.saveDailyCurrencies(result)
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
-                self?.refresher.endRefreshing()
+                self?.tableView.refreshControl?.endRefreshing()
             }
         }
     }
 
-    func showCurrencies(list: DailyCurrencies) {
-        dailyCurrencies = list
+    func showCurrencies(_ dailyList: DailyCurrency) {
+        dailyCurrency = dailyList
         self.tableView.reloadData()
     }
 
@@ -46,14 +45,14 @@ class CurrenciesListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dailyCurrencies.valute.count
+        return dailyCurrency.valute.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCell(at: indexPath)
-        var curCodes = [String](dailyCurrencies.valute.keys)
+        var curCodes = [String](dailyCurrency.valute.keys)
 
-        let coins = [CoinProperties](dailyCurrencies.valute.values)
+        let coins = [CoinProperty](dailyCurrency.valute.values)
         var curDescription: [String] = []
         for coin in coins {
             curDescription.append(coin.name!)
@@ -68,16 +67,16 @@ class CurrenciesListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var curCodes = [String](dailyCurrencies.valute.keys)
+        var curCodes = [String](dailyCurrency.valute.keys)
         selectedCur = curCodes[indexPath.row]
-        self.delegate?.currenciesListViewController(self, didSelectCurrecncy: selectedCur, listCurrency: dailyCurrencies)
+        self.delegate?.currenciesListViewController(self, didSelectCurrecncy: selectedCur, listCurrency: dailyCurrency)
     }
 }
 
 protocol CurrenciesListViewControllerDelegate {
     func currenciesListViewController(_ ctrl: CurrenciesListViewController,
                                       didSelectCurrecncy currency: String,
-                                      listCurrency list: DailyCurrencies)
+                                      listCurrency list: DailyCurrency)
 }
 
 extension UITableView {

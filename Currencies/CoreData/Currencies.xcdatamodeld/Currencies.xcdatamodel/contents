@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="PersistenceCurrencies" representedClassName=".PersistenceCurrencies" syncable="YES">
+    <entity name="PersistenceCurrency" representedClassName=".PersistenceCurrency" syncable="YES">
         <attribute name="coins" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="coinsDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
@@ -21,11 +21,11 @@
     </entity>
     <entity name="PersistenceValute" representedClassName=".PersistenceValute" syncable="YES">
         <attribute name="coinName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="currencies" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersistenceCurrencies" inverseName="valute" inverseEntity="PersistenceCurrencies" syncable="YES"/>
+        <relationship name="currencies" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersistenceCurrency" inverseName="valute" inverseEntity="PersistenceCurrency" syncable="YES"/>
         <relationship name="descriptionValute" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersistenceCurrencyDescription" inverseName="coins" inverseEntity="PersistenceCurrencyDescription" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PersistenceCurrencies" positionX="-234" positionY="113" width="128" height="148"/>
+        <element name="PersistenceCurrency" positionX="-234" positionY="113" width="128" height="150"/>
         <element name="PersistenceCurrencyDescription" positionX="225" positionY="116" width="128" height="163"/>
         <element name="PersistenceValute" positionX="-0" positionY="153" width="128" height="88"/>
     </elements>
