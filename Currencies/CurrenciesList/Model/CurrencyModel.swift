@@ -9,9 +9,9 @@ final class CurrencyModel {
 
     func usdToRouble (_ currency: DailyCurrency) -> Float {
         var valueUSD = Float()
-        for coin in currency.valute {
-            if coin.key == ExchangeRates.KeyStrings.keyUSD {
-                valueUSD = coin.value.value!
+        for coin in currency.coinProperty {
+            if coin.charCode == ExchangeRates.KeyStrings.keyUSD {
+                valueUSD = coin.value ?? Float()
                 break
             }
         }
@@ -22,7 +22,7 @@ final class CurrencyModel {
         var valueUSD = Float()
         for coin in currency.bpi {
             if coin.key == ExchangeRates.KeyStrings.keyUSD {
-                valueUSD = coin.value.rateFloat!
+                valueUSD = coin.value.rateFloat ?? Float()
                 break
             }
         }

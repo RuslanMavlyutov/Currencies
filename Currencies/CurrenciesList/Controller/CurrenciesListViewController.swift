@@ -50,25 +50,20 @@ class CurrenciesListViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueCell(at: indexPath)
-        var curCodes = [String](dailyCurrency.valute.keys)
-
-        let coins = [CoinProperty](dailyCurrency.valute.values)
-        var curDescription: [String] = []
-        for coin in coins {
-            curDescription.append(coin.name!)
+        let coin = dailyCurrency.coinProperty[indexPath.row]
+        guard let code = coin.charCode, let name = coin.name else {
+            return cell
         }
-
-        cell.configureForCurrencyList(
-            charCodeCurrency: curCodes[indexPath.row],
-            descriptionCurrency: curDescription[indexPath.row]
-        )
+        cell.configureForCurrencyList(charCodeCurrency: code,
+                                      descriptionCurrency: name)
 
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var curCodes = [String](dailyCurrency.valute.keys)
-        selectedCur = curCodes[indexPath.row]
+        if let code = dailyCurrency.coinProperty[indexPath.row].charCode {
+            selectedCur = code
+        }
         self.delegate?.currenciesListViewController(self, didSelectCurrecncy: selectedCur, listCurrency: dailyCurrency)
     }
 }

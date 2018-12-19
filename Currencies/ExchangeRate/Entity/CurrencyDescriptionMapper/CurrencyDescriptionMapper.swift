@@ -6,9 +6,9 @@ final class CurrencyDescriptionMapper {
         currencyDescription.id = list.id
         currencyDescription.numCode = list.numCode
         currencyDescription.charCode = list.charCode
-        currencyDescription.nominal = Int16(list.nominal!)
+        currencyDescription.nominal = Int16(list.nominal ?? Int())
         currencyDescription.name = list.name
-        currencyDescription.value = list.value!
-        currencyDescription.previous = list.previous!
+        currencyDescription.value = list.value ?? Float()
+        currencyDescription.previous = list.previous ?? Float()
     }
 }

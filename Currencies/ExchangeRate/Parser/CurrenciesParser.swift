@@ -9,6 +9,7 @@ final class DailyCurrency: NSObject, Mappable {
     var previousURL: String?
     var timestamp: String?
     var valute: [String : CoinProperty] = [:]
+    var coinProperty: [CoinProperty] = []
 
     override init() {
         super.init()
@@ -142,6 +143,7 @@ final class ExchangeRates {
                 return
             }
             dailyCurrency.valute[KeyStringsProperties.keyRUB] = self.fillRUBValute()
+            dailyCurrency.coinProperty = [CoinProperty](dailyCurrency.valute.values)
             completion(dailyCurrency)
         }
     }
@@ -150,7 +152,7 @@ final class ExchangeRates {
         let coinProperty = CoinProperty()
         coinProperty.id = String()
         coinProperty.numCode = String()
-        coinProperty.charCode = String()
+        coinProperty.charCode = KeyStringsProperties.keyRUB
         coinProperty.nominal = Int()
         coinProperty.name = KeyStringsProperties.descriptRUB
         coinProperty.value = 1

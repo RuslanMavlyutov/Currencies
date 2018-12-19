@@ -2,7 +2,7 @@ import Foundation
 import CoreData
 
 protocol PersistenceStorage {
-    func loadStorage(_ container: NSPersistentContainer)
+    func loadStorage()
     func saveDailyCurrencies(_ dailyList: DailyCurrency)
     func loadPreviousCurrencies(completion: @escaping (DailyCurrency) -> Void)
 }
@@ -13,21 +13,21 @@ final class CoreDataPersistenceStorage: PersistenceStorage {
     }
 
     private var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
+        return persistentContainer!.viewContext
     }
 
-    private let queue = DispatchQueue.global(qos: .utility)
+    private let queue = DispatchQueue.global(qos: .userInitiated)
+    private var persistentContainer: NSPersistentContainer?
 
-    private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: Strings.containerName)
-        loadStorage(container)
-        return container
-    }()
+    init() {
+        loadStorage()
+    }
 
-    func loadStorage(_ container: NSPersistentContainer) {
-        container.loadPersistentStores(completionHandler: { [weak self] (storeDescription, error) in
+    func loadStorage() {
+        persistentContainer = NSPersistentContainer(name: Strings.containerName)
+        persistentContainer!.loadPersistentStores { [weak self] (storeDescription, error) in
             self?.showErrorMessage(error)
-        })
+        }
     }
 
     func showErrorMessage(_ error: Error?) {
@@ -37,28 +37,22 @@ final class CoreDataPersistenceStorage: PersistenceStorage {
     }
 
     func saveDailyCurrencies (_ dailyList: DailyCurrency) {
-        let request = fetchPersistenceCurrencies()
         queue.async { [weak self]() -> Void in
             guard let strongSelf = self else {
                 return
             }
-            if !request.isEmpty {
+            if let request = strongSelf.fetchPersistenceCurrencies(),
+                !request.isEmpty {
                 strongSelf.removeCurrencies(coins: request)
             }
             let perCur = PersistenceCurrency(context: strongSelf.context)
             DailyCurrencyMapper.fillPersistenceCurrency(currency: perCur, list: dailyList)
 
-            var persistenceValute: PersistenceValute
-            for coin in (dailyList.valute) {
-                persistenceValute = PersistenceValute(context: strongSelf.context)
-
-                ValuteMapper.fillPersistenceValute(valute: persistenceValute, name: coin.key)
-
-                let persistenceCurrencyDescription = PersistenceCurrencyDescription(context: strongSelf.context)
-                CurrencyDescriptionMapper.fillPersistenceCurrencyDescription(currencyDescription: persistenceCurrencyDescription,
-                                                                             list: coin.value)
-                persistenceValute.descriptionValute = persistenceCurrencyDescription
-                perCur.addToValute(persistenceValute)
+            var persistenceCurrencyDescription: PersistenceCurrencyDescription
+            for coin in dailyList.coinProperty {
+                persistenceCurrencyDescription = PersistenceCurrencyDescription(context: strongSelf.context)
+                CurrencyDescriptionMapper.fillPersistenceCurrencyDescription(currencyDescription: persistenceCurrencyDescription, list: coin)
+                perCur.addToValute(persistenceCurrencyDescription)
             }
             strongSelf.saveContext()
         }
@@ -67,17 +61,22 @@ final class CoreDataPersistenceStorage: PersistenceStorage {
     func loadPreviousCurrencies(completion: @escaping (DailyCurrency) -> Void) {
         queue.async { [weak self]() -> Void in
             guard let strongSelf = self else { return }
-            let coins = strongSelf.fetchPersistenceCurrencies()
-            let dailyCurrencies = DailyCurrencyMapper.currecnyParser(currency: coins)
-            DispatchQueue.main.async { () -> Void in
-                completion(dailyCurrencies)
+            if let coins = strongSelf.fetchPersistenceCurrencies() {
+                let dailyCurrencies = DailyCurrencyMapper.currecnyParser(currency: coins)
+                DispatchQueue.main.async { () -> Void in
+                    completion(dailyCurrencies)
+                }
             }
         }
     }
 
-    func fetchPersistenceCurrencies() -> [PersistenceCurrency] {
-        let fetchRequest = NSFetchRequest<PersistenceCurrency>(entityName: String(describing: PersistenceCurrency.self))
-        return try! context.fetch(fetchRequest)
+    func fetchPersistenceCurrencies() -> [PersistenceCurrency]? {
+        let fetchRequest = NSFetchRequest<PersistenceCurrency>(entityName:
+            String(describing: PersistenceCurrency.self))
+        if let persistenceContainer = try? context.fetch(fetchRequest) {
+            return persistenceContainer
+        }
+        return nil
     }
 
     func removeCurrencies(coins: [PersistenceCurrency]) {

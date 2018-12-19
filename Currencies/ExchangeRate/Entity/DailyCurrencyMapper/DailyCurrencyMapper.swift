@@ -13,24 +13,25 @@ final class DailyCurrencyMapper {
         print(currency.count)
         for currency in currency {
             print(currency)
-            dailyCurrencies.date = currency.date!
-            dailyCurrencies.previousDate = currency.previousDate!
-            dailyCurrencies.previousURL = currency.previousURL!
-            dailyCurrencies.timestamp = currency.timeStamp!
-            
-            for coin in currency.valute! {
-                let valuteCoin = coin as! PersistenceValute
-                
+            dailyCurrencies.date = currency.date ?? String()
+            dailyCurrencies.previousDate = currency.previousDate ?? String()
+            dailyCurrencies.previousURL = currency.previousURL ?? String()
+            dailyCurrencies.timestamp = currency.timeStamp ?? String()
+
+            guard let valute = currency.valute else { return dailyCurrencies }
+            for coin in valute {
+                let valuteCoin = coin as! PersistenceCurrencyDescription
+
                 let curDescript = CoinProperty()
-                curDescript.id = (valuteCoin.descriptionValute?.id)!
-                curDescript.numCode = (valuteCoin.descriptionValute?.numCode)!
-                curDescript.charCode = (valuteCoin.descriptionValute?.charCode)!
-                curDescript.nominal = Int((valuteCoin.descriptionValute?.nominal)!)
-                curDescript.name = (valuteCoin.descriptionValute?.name)!
-                curDescript.value = (valuteCoin.descriptionValute?.value)!
-                curDescript.previous = (valuteCoin.descriptionValute?.previous)!
-                
-                dailyCurrencies.valute[valuteCoin.coinName!] = curDescript
+                curDescript.id = valuteCoin.id
+                curDescript.numCode = valuteCoin.numCode
+                curDescript.charCode = valuteCoin.charCode
+                curDescript.nominal = Int(valuteCoin.nominal)
+                curDescript.name = valuteCoin.name
+                curDescript.value = valuteCoin.value
+                curDescript.previous = valuteCoin.previous
+
+                dailyCurrencies.coinProperty.append(curDescript)
             }
         }
         return dailyCurrencies

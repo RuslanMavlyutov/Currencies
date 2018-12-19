@@ -2,7 +2,7 @@
 //  PersistenceCurrencyDescription+CoreDataProperties.swift
 //  
 //
-//  Created by Ruslan Mavlyutov on 10/12/2018.
+//  Created by Ruslan Mavlyutov on 18/12/2018.
 //
 //
 
@@ -23,6 +23,6 @@ extension PersistenceCurrencyDescription {
     @NSManaged public var numCode: String?
     @NSManaged public var previous: Float
     @NSManaged public var value: Float
-    @NSManaged public var coins: PersistenceValute?
+    @NSManaged public var coins: PersistenceCurrency?
 
 }
