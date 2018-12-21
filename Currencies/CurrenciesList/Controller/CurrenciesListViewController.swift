@@ -8,7 +8,7 @@ class CurrenciesListViewController: UITableViewController {
 
     @IBOutlet private var table: UITableView!
 
-    private let storage = CoreDataPersistenceStorage()
+    private var storage: CoreDataPersistenceStorage?
 
     struct KeyFunc {
         static let keyValute = "pull to refresh"
@@ -27,7 +27,7 @@ class CurrenciesListViewController: UITableViewController {
         currencyModel.currencyList() { [weak self]
             (result: DailyCurrency) in
             self?.dailyCurrency = result
-            self?.storage.saveDailyCurrencies(result)
+            self?.storage?.saveDailyCurrencies(result)
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.tableView.refreshControl?.endRefreshing()
@@ -35,8 +35,9 @@ class CurrenciesListViewController: UITableViewController {
         }
     }
 
-    func showCurrencies(_ dailyList: DailyCurrency) {
+    func showCurrencies(_ dailyList: DailyCurrency, _ storage: CoreDataPersistenceStorage) {
         dailyCurrency = dailyList
+        self.storage = storage
         self.tableView.reloadData()
     }
 

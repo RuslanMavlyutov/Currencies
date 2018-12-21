@@ -2,7 +2,7 @@
 //  PersistenceCurrency+CoreDataProperties.swift
 //  
 //
-//  Created by Ruslan Mavlyutov on 18/12/2018.
+//  Created by Ruslan Mavlyutov on 20/12/2018.
 //
 //
 
@@ -16,7 +16,6 @@ extension PersistenceCurrency {
         return NSFetchRequest<PersistenceCurrency>(entityName: "PersistenceCurrency")
     }
 
-    @NSManaged public var coinsDescription: String?
     @NSManaged public var date: String?
     @NSManaged public var previousDate: String?
     @NSManaged public var previousURL: String?

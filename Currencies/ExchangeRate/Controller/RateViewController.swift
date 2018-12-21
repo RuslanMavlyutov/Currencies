@@ -123,25 +123,24 @@ final class RateViewController: UIViewController {
     }
 
     func showCurrencies(_ dailyList: DailyCurrency) {
-        if let vc = viewController() {
-            vc.delegate = self
-            self.navigationController?.pushViewController(vc, animated: true)
-            vc.showCurrencies(dailyList)
-        }
+        currencyTable(dailyList)
     }
 
     func updateAndShowCurrencies() {
         currencyModel.currencyList() { [weak self]
             (dailyCurrency: DailyCurrency) in
-            print(dailyCurrency)
             self?.storage.saveDailyCurrencies(dailyCurrency)
             DispatchQueue.main.async {
-                if let vc = self?.viewController() {
-                    vc.delegate = self
-                    self?.navigationController?.pushViewController(vc, animated: true)
-                    vc.showCurrencies(dailyCurrency)
-                }
+                self?.currencyTable(dailyCurrency)
             }
+        }
+    }
+
+    func currencyTable(_ currency : DailyCurrency) {
+        if let vc = viewController() {
+            vc.delegate = self
+            navigationController?.pushViewController(vc, animated: true)
+            vc.showCurrencies(currency, storage)
         }
     }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="PersistenceCurrency" representedClassName=".PersistenceCurrency" syncable="YES">
-        <attribute name="coinsDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="previousDate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="previousURL" optional="YES" attributeType="String" syncable="YES"/>
@@ -19,7 +18,7 @@
         <relationship name="coins" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersistenceCurrency" inverseName="valute" inverseEntity="PersistenceCurrency" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PersistenceCurrency" positionX="-155" positionY="149" width="128" height="133"/>
+        <element name="PersistenceCurrency" positionX="-155" positionY="149" width="128" height="118"/>
         <element name="PersistenceCurrencyDescription" positionX="-360" positionY="134" width="128" height="163"/>
     </elements>
 </model>

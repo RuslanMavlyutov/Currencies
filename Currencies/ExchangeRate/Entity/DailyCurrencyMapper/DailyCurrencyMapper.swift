@@ -10,9 +10,7 @@ final class DailyCurrencyMapper {
     
     static func currecnyParser(currency: [PersistenceCurrency]) -> DailyCurrency {
         let dailyCurrencies = DailyCurrency()
-        print(currency.count)
         for currency in currency {
-            print(currency)
             dailyCurrencies.date = currency.date ?? String()
             dailyCurrencies.previousDate = currency.previousDate ?? String()
             dailyCurrencies.previousURL = currency.previousURL ?? String()
